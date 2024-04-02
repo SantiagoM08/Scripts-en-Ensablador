@@ -1,0 +1,67 @@
+.data
+	ingnum1: .asciiz "Ingrese el primer numero: "
+	ingnum2: .asciiz "\nIngrese el segundo numero: "
+	ingnum3: .asciiz "\nIngrese el tercer numero: "
+	mayor: .asciiz "\n El numero mayor entre los 3 numeros es: "
+
+.text
+	#Ingresar el primer numero
+	
+	li $v0, 4
+	la $a0, ingnum1
+	syscall 
+		#Pediremos el primer numero al usuario
+	li $v0, 5
+	syscall 
+		#Guardamos el numero ingresado
+	move $s0, $v0
+	
+	#Ingresar el segundo numero
+	
+	li $v0, 4
+	la $a0, ingnum2
+	syscall 
+		#Pediremos el segundo numero al usuario
+	li $v0, 5
+	syscall 
+		#Guardamos el numero ingresado
+	move $s1, $v0
+	
+	#Ingresar el tercer numero
+	
+	li $v0, 4
+	la $a0, ingnum3
+	syscall 
+		#Pediremos el tercer numero al usuario
+	li $v0, 5
+	syscall 
+		#Guardamos el numero ingresado
+	move $s2, $v0
+	
+	Comparacion:
+	# Comparamos el primer número con el tercer número
+	slt $t2, $s0, $s2
+	beq $t2, $zero, numMayor
+	move $s3, $s2
+	j end_comparison
+
+	numMayor:
+	move $s3, $s0
+
+	end_comparison:
+	# Ahora $s3 contiene el número más grande de los tres números ingresados
+
+	# Imprimir el número más grande
+	li $v0, 4
+	la $a0, mayor
+	syscall
+
+	li $v0, 1
+	move $a0, $s3
+	syscall
+
+	# Terminar el programa
+	li $v0, 10
+	syscall
+
+	
